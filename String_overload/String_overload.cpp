@@ -470,63 +470,43 @@ String& String::operator = (String& s)
 
 bool String::operator == (const char* s)
 {
-    if (s == this->text)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return strcmp(text, s) ? false : true;
 }
 
-bool String::operator > (String* s)
+bool String::operator > (String s)
 {
-    if (this->capacity > s->capacity)
-        return true;
-    for (int i = 0; i < capacity; i++)
-    {
-        if (this->GetCharAt(i) > s->GetCharAt(i)) 
-            return true;
-        if (this->GetCharAt(i) < s->GetCharAt(i))
-            return false;
-        if (i == this->capacity)
-            return false;
-    }
-}
-
-bool String::operator < (String* s)
-{
-    if (this->capacity < s->capacity)
-        return true;
-    for (int i = 0; i < capacity; i++)
-    {
-        if (this->GetCharAt(i) < s->GetCharAt(i)) 
-            return true;
-        if (this->GetCharAt(i) > s->GetCharAt(i)) 
-            return false;
-        if (i == this->capacity)
-            return false;
-    }
-}
-
-bool String::operator >=(String* second)
-{
-    if (this > second || this == second)
+    s.CompareTo(text);
+    if (this > 0)
         return true;
     return false;
 }
 
-bool String::operator <=(String* second)
+bool String::operator < (String s)
 {
-    if (this < second || this == second) 
+    s.CompareTo(text);
+    if (this < 0) 
+        return true;
+    return false;
+    
+}
+
+bool String::operator >=(String* s)
+{    
+    if (this > s || this == s)
         return true;
     return false;
 }
 
-bool String::operator !=(String* second)
-{
-    if (this == second) 
+bool String::operator <=(String* s)
+{   
+    if (this < s || this == s) 
+        return true;
+    return false;
+}
+
+bool String::operator !=(String* s)
+{    
+    if (this == s) 
         return false;
     return true;
 }
@@ -558,12 +538,21 @@ String* String::operator +(const char* s)
 
 void String::operator+=(const char* s)
 {
+    int new_capacity = capacity + strlen(s) + 1;
+    char* new_string = new char[new_capacity];
+
     strcat(text, s);
+    delete[] new_string;          
 }
 
 void String::operator+=(String& s)
 {
-    strcat(text, s.GetCharArray());
+    capacity += sizeof(s) + 1;
+    char* new_string = new char[capacity];
+    strcpy(new_string, text);
+    strcat(new_string, s.GetCharArray());
+    delete[] text;
+    text = new_string;
 }
 
 ostream& operator <<(ostream& out, String s)
