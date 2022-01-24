@@ -57,20 +57,24 @@ public:
 	void RandomFill();
 	String& operator = (String& s);
 	bool operator == (const char* s);
-	bool operator > (String* second);	
-	bool operator < (String* second);	
-	bool operator >=(String* second);
-	bool operator <=(String* second);
-	bool operator !=(String* second);
+	bool operator > (String s);	
+	bool operator < (String s);	
+	bool operator >=(String* s);
+	bool operator <=(String* s);
+	bool operator !=(String* s);
 	String& operator ()(String& s);
 	char& operator [](int index);	
 	String* operator +(String& s);	
 	String* operator +(const char* s);		
 	void operator+=(const char* s);
 	void operator+=(String& s);
+	explicit operator char* ();
+	explicit operator int();
+	explicit operator double();
+	
 private:
 	void Initialize(const char* s, int capacity = 80);
 };
 
 ostream& operator <<(ostream& out, String s);
-//istream& operator >>(istream& in, String& s);
+

@@ -428,10 +428,17 @@ void String::Replace(char R, char Z)
 
 void String::Reverse()
 {
-    for (int i = length - 1; i >= 0; i--)
+    char* temp = new char[capacity];
+
+    for (int i = 0; i < length; i++)
     {
-        //cout << text[i];
+        temp[i] = this->text[length - i - 1];
     }
+
+    temp[length] = '\0';
+    delete[] this->text;
+    this->text = temp;
+    
 }
 
 void String::Shuffle()
@@ -553,6 +560,24 @@ void String::operator+=(String& s)
     strcat(new_string, s.GetCharArray());
     delete[] text;
     text = new_string;
+}
+
+String::operator char* ()
+{
+    char* temp = new char[255];
+    strcpy_s(temp, length + 1, text);
+    return temp;
+}
+
+String::operator int()
+{
+    return atoi(text);
+}
+
+String::operator double()
+{
+
+    return atof(text);
 }
 
 ostream& operator <<(ostream& out, String s)
